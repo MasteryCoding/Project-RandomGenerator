@@ -83,6 +83,8 @@ Now, we can change how the rotation affects the cube by moving it away from the 
 
 ### Step 4: GrowShrink.cs
 
+GrowShrink.cs
+
 ```csharp
 using UnityEngine;
 
@@ -134,6 +136,8 @@ public class GrowShrink : MonoBehaviour
 
 The *BackForth.cs* script will move the object back and forth across the origin. We can accomplish the same oscillating behavior we saw in GrowShrink by representing the motion with a sin wave.
 
+BackForth.cs
+
 ```csharp
 using UnityEngine;
 
@@ -168,4 +172,134 @@ public class BackForth : MonoBehaviour
 
 ![BackForth](./Resources/BackForth.gif)
 
-### Step 6: Random Generator
+### Step 6: Random Spawner
+
+Now we can create the Random Spawner Script
+
+![Prefab](./Resources/Unity%20Live%20Build%202.png)
+
+- Create an empty GameObject called *RandomSpawner*
+
+- Create a script called `RandomSpawn.cs` and attach it to the *RandomSpawner*.
+
+- In the script expose a variable `objectToSpawn` that holds a GameObject. This is for our prefab.
+
+- Create a private method called `Spawn()` that instantiates a GameObject and sets its position.
+
+- Create a loop that runs an amount of times controlled by the user. Call Spawn() in this loop.
+
+This will instantiate as many objects as the user wants.
+
+RandomSpawn.cs
+
+```csharp
+using UnityEngine;
+
+public class RandomSpawn : MonoBehaviour
+{
+    [SerializeField] GameObject objectToSpawn;
+    [SerializeField] int amountToSpawn;
+
+    void Start() {
+        for (int i = 0; i < amountToSpawn; i++) {
+            Spawn();
+        }
+    }
+
+    void Spawn() {
+        GameObject obj = Instantiate(objectToSpawn);
+        obj.transform.position = Vector3.up * Random.Range(-5f, 5f);
+    }
+}
+```
+
+### Step 7: Modifying Public Variables
+
+Inside the `Spawn()` method, we'll be randomly assigning values from the `Random.Range()` method.
+
+```csharp
+
+    void Spawn() {
+    GameObject obj = Instantiate(objectToSpawn);
+
+    // Randomly set materials
+    MeshRenderer mr = obj.GetComponentInChildren<MeshRenderer>();
+    mr.material = materials[Random.Range(0, materials.Length)];
+
+    // Randomly set Rotate values
+    Rotate rotate = obj.GetComponent<Rotate>();
+    rotate.rotateSpeed = Random.Range(10f, 60f);
+
+    // Randomly set GrowShrink values
+    GrowShrink growShrink = obj.GetComponent<GrowShrink>();
+    growShrink.scaleSpeed = Random.Range(1f, 2f);
+    growShrink.maxSize = Random.Range(1f, 3f);
+    growShrink.minSize = Random.Range(0.1f, 0.5f);
+
+    // Randomly set BackForth values
+    BackForth backForth = obj.GetComponent<BackForth>();
+    backForth.maxDistance = Random.Range(5f, 10f);
+    backForth.moveSpeed = Random.Range(1f, 3f);
+
+    // Spawn in random y axis. 
+    obj.transform.position = Vector3.up * Random.Range(-5f, 5f);
+}
+
+```
+
+### Step 8: Random Colors
+
+The scene will look better if we have variations in color.
+
+- In the *Materials* folder, add 6 or so materials with bright colors.
+
+- In the `RandomSpawn.cs` script, expose a `Material` array.
+
+```csharp
+[SerializeField] Material[] materials;
+```
+
+- In the `Spawn()` method, randomly assign a material from the array to the `MeshRenderer` of the object.
+
+```csharp
+// Randomly set materials
+MeshRenderer mr = obj.GetComponentInChildren<MeshRenderer>();
+mr.material = materials[Random.Range(0, materials.Length)];
+```
+
+### Step 9: Flat Background and Framing
+
+- In the *Main Camera* of the scene, change the *Clear Flags* to *Solid Color* and pick a white background.
+
+- Frame the camera so it captures the spawn points of the objects. (0, 0, -15) is a good position value.
+
+![Framing](./Resources/Framing.gif)
+
+### Step 10: Rotate the Cube and the Parent
+
+- Add a *Rotate.cs* script to the cube.
+
+- In `Spawn()` Get the `Rotate` of the child and set the values randomly.
+
+```csharp
+ // Randomly set Rotate values
+Rotate rotate = obj.GetComponent<Rotate>();
+rotate.rotateSpeed = Random.Range(10f, 60f);
+
+Rotate childRotate = obj.transform.GetChild(0).GetComponent<Rotate>();
+childRotate.rotateSpeed = Random.Range(90f, 180f);
+```
+
+### Step 11: Adding User Control
+
+When the user presses the spacebar, spawn another object.
+
+In `RandomSpawn.cs`
+
+```csharp
+void Update() {
+    if (Input.GetKeyDown(KeyCode.Space)) {
+        Spawn();
+    }
+}
+```

@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2558747065601473751}
   - component: {fileID: 2265553369230391300}
+  - component: {fileID: 1026146943}
+  - component: {fileID: 1026146944}
   m_Layer: 0
   m_Name: ObjectHolder
   m_TagString: Untagged
@@ -44,7 +46,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9348381ed83f9e4d89084292594164e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotateSpeed: 1
+  rotateSpeed: 30
+--- !u!114 &1026146943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5588591086214064400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1db775393f33068438a0b2e42a4a9464, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 1
+  maxDistance: 3
+--- !u!114 &1026146944
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5588591086214064400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8278b283cf887b6448e1ceee188cb4fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxSize: 3
+  minSize: 0.5
+  scaleSpeed: 1
 --- !u!1 &8532288423785227022
 GameObject:
   m_ObjectHideFlags: 0
@@ -57,6 +88,7 @@ GameObject:
   - component: {fileID: 8532288423785227058}
   - component: {fileID: 8532288423785227059}
   - component: {fileID: 8532288423785227020}
+  - component: {fileID: 1008896919}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -71,13 +103,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8532288423785227022}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0.35355338, y: 0.35355338, z: -0.1464466, w: 0.8535535}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2558747065601473751}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 45, y: 45, z: 0}
 --- !u!33 &8532288423785227058
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -136,3 +168,16 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1008896919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8532288423785227022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9348381ed83f9e4d89084292594164e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotateSpeed: 1
