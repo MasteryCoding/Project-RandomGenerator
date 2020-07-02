@@ -81,5 +81,91 @@ Now, we can change how the rotation affects the cube by moving it away from the 
 
 ![Rotate Parent](./Resources/RotateParent.gif)
 
-### Step 4: BackForth.cs
+### Step 4: GrowShrink.cs
 
+```csharp
+using UnityEngine;
+
+public class GrowShrink : MonoBehaviour
+{
+    public float maxSize = 3f;
+
+    public float minSize = 0.5f;
+    public float scaleSpeed = 1f;
+
+    Transform childTransform;
+
+    bool growing = true;
+
+    void Awake()
+    {
+        // Get a reference to the child transform.
+        childTransform = transform.GetChild(0).transform;
+    }
+
+    void Start()
+    {
+        childTransform.localScale = Vector3.one;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        // Check if the child has passed the maximum distance, if so, change the direction.
+        if (childTransform.localScale.x >= maxSize) {
+            growing = false;
+        } else if (childTransform.localScale.x <= minSize) {
+            growing = true;
+        }
+
+        // Check which direction the child is moving, then move its position in that direction.
+        if (growing) {
+            childTransform.localScale += Vector3.one * scaleSpeed * Time.deltaTime;
+        } else {
+            childTransform.localPosition -= Vector3.one * scaleSpeed * Time.deltaTime;
+        }
+    }
+}
+```
+
+![Grow Shrink](./Resources/GrowShrink.gif)
+
+### Step 5: BackForth.cs
+
+The *BackForth.cs* script will move the object back and forth across the origin. We can accomplish the same oscillating behavior we saw in GrowShrink by representing the motion with a sin wave.
+
+```csharp
+using UnityEngine;
+
+public class BackForth : MonoBehaviour
+{
+
+    public float moveSpeed = 1f;
+
+    public float maxDistance = 3f;
+
+    private Transform childTransform;
+
+    void Awake()
+    {
+        // Get a reference to the child's transform
+        childTransform = transform.GetChild(0).transform;
+    }
+
+    void Start()
+    {
+        // Start the child object at parent's origin.
+        childTransform.localPosition = Vector3.zero;
+    }
+
+    void Update()
+    {
+        // Move the child back and forth.
+        childTransform.localPosition = Vector3.right * Mathf.Sin(Time.time * moveSpeed) * maxDistance;
+    }
+}
+```
+
+![BackForth](./Resources/BackForth.gif)
+
+### Step 6: Random Generator
